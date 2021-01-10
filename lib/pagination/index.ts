@@ -102,6 +102,8 @@ export default async function paginate(
 
   if (options?.goTo) emojis.push("🔢");
 
+  if (pagination.deleted) return;
+
   if (pages.length > 1) Promise.all(emojis.map((e) => pagination.react(e)));
   pagination.react(emojis[options?.fastForwardAndRewind ? 2 : 1]);
 
@@ -115,6 +117,7 @@ export default async function paginate(
   );
 
   const handleReaction = async (reaction: MessageReaction) => {
+    if (pagination.deleted) return;
     switch (reaction.emoji.name) {
       case "⏪":
         if (!options?.fastForwardAndRewind) return;
@@ -139,7 +142,7 @@ export default async function paginate(
 
         if (rw) {
           pageNumber -= rw;
-          if (pageNumber < 1) pageNumber = 1;
+          if (pageNumber < 0) pageNumber = 0;
         }
         rwp.delete();
         return await pagination.edit(pages[pageNumber]);

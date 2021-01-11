@@ -21,6 +21,22 @@ command("p", (message, args, client) => {
   );
 });
 
+command("t", async (message, args, client) => {
+  const sw = utils.getStopwatch();
+
+  sw.start();
+
+  const time = Math.floor(Math.random() * 1000) + 1000;
+
+  await utils.aDelayOf(time);
+
+  sw.stop();
+
+  message.channel.send(
+    `Time waited: ${time}\nTime recorded: ${sw.elapsedTime}`
+  );
+});
+
 client.on("ready", () => console.log("Ready!"));
 
 client.on("message", (message) => {

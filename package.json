@@ -22,6 +22,7 @@
     "@types/ms": "^0.7.31",
     "@types/node-fetch": "^2.5.7",
     "date-fns": "^2.16.1",
+    "discord-parse-utils": "^1.0.3",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ms": "^2.1.3",

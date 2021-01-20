@@ -14,4 +14,4 @@ await aDelayOf(1000); // wait one second
 ...
 ```
 
-you can read the docs on [our github page](aero-ware.github.io)
+you can read the docs on [our github page](https://aero-ware.github.io/aeroclient/#utils)

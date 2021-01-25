@@ -38,7 +38,7 @@ export default async function paginate(
             if (typeof options.fastForwardAndRewind !== "object") throw new Error("The 'fastForwardAndRewind' option should be an object.");
 
             if (options.fastForwardAndRewind.time) {
-                if (typeof options.startingPage !== "number") throw new Error("Fast forward and rewind time must be a non-negative number.");
+                if (typeof options.time !== "number") throw new Error("Fast forward and rewind time must be a non-negative number.");
                 if (options.fastForwardAndRewind.time < 0) throw new Error("Fast forward and rewind time must be non-negative.");
             }
 

@@ -114,8 +114,8 @@ export default async function paginate(
                 return await pagination.edit(pages[pageNumber]);
             case "◀️":
                 pageNumber--;
-                if (pageNumber < 1) {
-                    pageNumber = 1;
+                if (pageNumber < 0) {
+                    pageNumber = 0;
                     return;
                 }
                 return await pagination.edit(pages[pageNumber]);
@@ -123,8 +123,8 @@ export default async function paginate(
                 return collector.stop();
             case "▶️":
                 pageNumber++;
-                if (pageNumber > pages.length) {
-                    pageNumber = pages.length;
+                if (pageNumber > pages.length - 1) {
+                    pageNumber = pages.length - 1;
                     return;
                 }
                 return await pagination.edit(pages[pageNumber]);

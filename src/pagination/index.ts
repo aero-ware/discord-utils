@@ -25,9 +25,15 @@ export default async function paginate(
 ) {
     if (options) {
         if (options.startingPage) {
-            if (typeof options.startingPage !== "number" || !Number.isInteger(options.startingPage)) throw new Error("Starting page index must be an integer.");
-            if (options.startingPage < 0) throw new Error("Starting page index must be non-negative or zero.");
-            if (options.startingPage > pages.length - 1) throw new Error("Starting page index is greater than the length of the pages.");
+            if (
+                typeof options.startingPage !== "number" ||
+                !Number.isInteger(options.startingPage)
+            )
+                throw new Error("Starting page index must be an integer.");
+            if (options.startingPage < 0)
+                throw new Error("Starting page index must be non-negative or zero.");
+            if (options.startingPage > pages.length - 1)
+                throw new Error("Starting page index is greater than the length of the pages.");
         }
 
         if (options.time) {
@@ -35,29 +41,42 @@ export default async function paginate(
         }
 
         if (options.fastForwardAndRewind) {
-            if (typeof options.fastForwardAndRewind !== "object") throw new Error("The 'fastForwardAndRewind' option should be an object.");
+            if (typeof options.fastForwardAndRewind !== "object")
+                throw new Error("The 'fastForwardAndRewind' option should be an object.");
 
             if (options.fastForwardAndRewind.time) {
-                if (typeof options.time !== "number") throw new Error("Fast forward and rewind time must be a non-negative number.");
-                if (options.fastForwardAndRewind.time < 0) throw new Error("Fast forward and rewind time must be non-negative.");
+                if (typeof options.fastForwardAndRewind.time !== "number")
+                    throw new Error(
+                        "Fast forward and rewind time must be a non-negative number."
+                    );
+                if (options.fastForwardAndRewind.time < 0)
+                    throw new Error("Fast forward and rewind time must be non-negative.");
             }
 
             if (options.fastForwardAndRewind.fastForwardPrompt) {
-                if (typeof options.fastForwardAndRewind.fastForwardPrompt !== "string" || !options.fastForwardAndRewind.fastForwardPrompt.length)
+                if (
+                    typeof options.fastForwardAndRewind.fastForwardPrompt !== "string" ||
+                    !options.fastForwardAndRewind.fastForwardPrompt.length
+                )
                     throw new Error("Prompt should be a string that is not empty.");
             }
 
             if (options.fastForwardAndRewind.rewindPrompt) {
-                if (typeof options.fastForwardAndRewind.rewindPrompt !== "string" || !options.fastForwardAndRewind.rewindPrompt.length)
+                if (
+                    typeof options.fastForwardAndRewind.rewindPrompt !== "string" ||
+                    !options.fastForwardAndRewind.rewindPrompt.length
+                )
                     throw new Error("Prompt should be a string that is not empty.");
             }
         }
 
         if (options.goTo) {
             if (options.goTo.prompt) {
-                if (typeof options.goTo.prompt !== "string" || !options.goTo.prompt.length) throw new Error("Prompt should be a string that is not empty.");
+                if (typeof options.goTo.prompt !== "string" || !options.goTo.prompt.length)
+                    throw new Error("Prompt should be a string that is not empty.");
 
-                if (typeof options.goTo.time !== "number" || options.goTo.time < 0) throw new Error("Time must be non-negative number.");
+                if (typeof options.goTo.time !== "number" || options.goTo.time < 0)
+                    throw new Error("Time must be non-negative number.");
             }
         }
     }
@@ -68,7 +87,9 @@ export default async function paginate(
 
     const pagination = await message.channel.send(page);
 
-    const emojis = options?.fastForwardAndRewind ? ["⏪", "◀️", "⏹", "▶️", "⏩"] : ["◀️", "⏹", "▶️"];
+    const emojis = options?.fastForwardAndRewind
+        ? ["⏪", "◀️", "⏹", "▶️", "⏩"]
+        : ["◀️", "⏹", "▶️"];
 
     if (options?.goTo) emojis.push("🔢");
 
@@ -78,7 +99,8 @@ export default async function paginate(
     pagination.react(emojis[options?.fastForwardAndRewind ? 2 : 1]);
 
     const collector = pagination.createReactionCollector(
-        (reaction: MessageReaction, user: User) => emojis.includes(reaction.emoji.name) && user.id === message.author.id,
+        (reaction: MessageReaction, user: User) =>
+            emojis.includes(reaction.emoji.name) && user.id === message.author.id,
         {
             dispose: true,
             time: options?.time || 60000,
@@ -90,7 +112,10 @@ export default async function paginate(
         switch (reaction.emoji.name) {
             case "⏪":
                 if (!options?.fastForwardAndRewind) return;
-                const rwp = await message.channel.send(options.fastForwardAndRewind.rewindPrompt || "How many pages would you like to go back?");
+                const rwp = await message.channel.send(
+                    options.fastForwardAndRewind.rewindPrompt ||
+                        "How many pages would you like to go back?"
+                );
                 const rw = parseInt(
                     (
                         await message.channel.awaitMessages(
@@ -130,7 +155,10 @@ export default async function paginate(
                 return await pagination.edit(pages[pageNumber]);
             case "⏩":
                 if (!options?.fastForwardAndRewind) return;
-                const ffp = await message.channel.send(options.fastForwardAndRewind.fastForwardPrompt || "How many pages would you like to go forward?");
+                const ffp = await message.channel.send(
+                    options.fastForwardAndRewind.fastForwardPrompt ||
+                        "How many pages would you like to go forward?"
+                );
                 const ff = parseInt(
                     (
                         await message.channel.awaitMessages(
@@ -155,7 +183,9 @@ export default async function paginate(
             case "🔢":
                 if (!options?.goTo) return;
 
-                const gtp = await message.channel.send(options.goTo.prompt || "Which page would you like to go to?");
+                const gtp = await message.channel.send(
+                    options.goTo.prompt || "Which page would you like to go to?"
+                );
 
                 const gt = parseInt(
                     (

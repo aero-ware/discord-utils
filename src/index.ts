@@ -17,9 +17,45 @@ export default {
     trim: parse.trim,
     chunk<T>(array: T[], size: number): T[][] {
         return array
-            .map((_, i) =>
-                i % size ? undefined! : array.slice(i, Math.floor(i / size) * size + size)
-            )
+            .map((_, i) => (i % size ? undefined! : array.slice(i, Math.floor(i / size) * size + size)))
+            .filter(($) => !!$);
+    },
+};
+
+module.exports = {
+    paginate,
+    aDelayOf,
+    getStopwatch,
+    getReaction,
+    getReply,
+    formatMacroCase: parse.case,
+    formatList: parse.list,
+    parseUsers: parse.users,
+    parseMembers: parse.members,
+    parseRoles: parse.roles,
+    trim: parse.trim,
+    chunk<T>(array: T[], size: number): T[][] {
+        return array
+            .map((_, i) => (i % size ? undefined! : array.slice(i, Math.floor(i / size) * size + size)))
+            .filter(($) => !!$);
+    },
+};
+
+exports = {
+    paginate,
+    aDelayOf,
+    getStopwatch,
+    getReaction,
+    getReply,
+    formatMacroCase: parse.case,
+    formatList: parse.list,
+    parseUsers: parse.users,
+    parseMembers: parse.members,
+    parseRoles: parse.roles,
+    trim: parse.trim,
+    chunk<T>(array: T[], size: number): T[][] {
+        return array
+            .map((_, i) => (i % size ? undefined! : array.slice(i, Math.floor(i / size) * size + size)))
             .filter(($) => !!$);
     },
 };
